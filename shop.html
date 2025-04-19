@@ -144,7 +144,7 @@
     let currentPage = 1;
     const productsPerPage = 30;
     const isLocal = window.location.protocol === 'file:';
-    const csvPath = isLocal ? 'Products.csv' : '/Products.csv';
+    const csvPath = isLocal ? 'Products.csv' : '/Hkula/Products.csv';
 
     function parseCSV(data) {
       Papa.parse(data, {
