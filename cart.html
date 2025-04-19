@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart - HKULA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@700&family=Cormorant+Garamond:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Roboto', sans-serif; background: #FFF0F6; color: #1F2937; display: flex; flex-direction: column; min-height: 100vh; }
+    h1, h2, h3 { font-family: 'Playfair Display', serif; margin: 0.5rem 0; }
+    a { text-decoration: none; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+    main { flex: 1; }
+
+    nav { background: linear-gradient(to right, #EC4899 10%, #FBBF24 50%, #A855F7 90%); padding: 1rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+    .logo { display: flex; align-items: center; }
+    .logo img { height: 48px; }
+    .hkula-text { margin-left: 0.75rem; color: #A855F7; font-family: 'Cormorant Garamond', serif; font-weight: 700; text-transform: uppercase; font-size: 1.7rem; }
+    .nav-right { display: flex; align-items: center; gap: 1rem; }
+    nav ul { display: flex; gap: 0.5rem; list-style: none; margin: 0; font-size: 0.9rem; }
+    nav ul li a { color: #FFF; text-transform: uppercase; padding: 0.4rem 0.8rem; border: 1px solid #FFF; border-radius: 4px; font-weight: 700; opacity: 0.8; }
+    nav ul li a:hover { background: rgba(255,255,255,0.2); opacity: 1; }
+    .cart-btn { position: relative; }
+    .cart-btn i { font-size: 1.5rem; color: #FFF; }
+    .cart-btn .badge { position: absolute; top: -6px; right: -10px; background: #EC4899; color: #FFF; border-radius: 50%; padding: 2px 6px; font-size: 0.75rem; }
+    .cart-notification { display: none; position: absolute; top: 100%; right: 0; background: #FFF; color: #EC4899; padding: 0.5rem; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); font-size: 0.8rem; z-index: 101; }
+
+    .cart-section { padding: 2rem 0; text-align: center; }
+    .cart-section h2 { color: #EC4899; font-size: 1.4rem; text-transform: uppercase; display: inline-block; padding: 0.3rem 0.8rem; border: 1px solid #EC4899; border-radius: 4px; margin-bottom: 2rem; }
+    .cart-items-container {
+      max-height: 400px;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+      border: 1px solid #E5E7EB;
+      border-radius: 6px;
+      padding: 0.5rem;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem;
+      border-bottom: 1px solid #E5E7EB;
+    }
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+    .cart-item-image {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      margin-right: 1rem;
+      border-radius: 4px;
+    }
+    .cart-item-details {
+      flex: 1;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+    .cart-item-sku {
+      font-weight: bold;
+      color: #A855F7;
+    }
+    .cart-item-qty {
+      display: flex;
+      align-items: center;
+      margin-top: 0.3rem;
+    }
+    .cart-item-qty button {
+      background: #A855F7;
+      color: #FFF;
+      border: none;
+      border-radius: 4px;
+      width: 25px;
+      height: 25px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .cart-item-qty button:hover {
+      background: #7C3AED;
+    }
+    .cart-item-qty button:disabled {
+      background: #D1D5DB;
+      cursor: not-allowed;
+    }
+    .cart-item-qty input {
+      width: 40px;
+      text-align: center;
+      margin: 0 0.5rem;
+      border: 1px solid #E5E7EB;
+      border-radius: 4px;
+    }
+    .cart-item-price {
+      min-width: 80px;
+      text-align: right;
+      font-weight: bold;
+    }
+    .cart-item-remove {
+      margin-left: 1rem;
+      color: #EF4444;
+      cursor: pointer;
+    }
+    .cart-total {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #EC4899;
+      margin-bottom: 1rem;
+      text-align: right;
+    }
+    .empty-cart { font-size: 1rem; color: #6B7280; }
+    .checkout-btn, .clear-cart-btn { 
+      background: #EC4899; 
+      color: #FFF; 
+      padding: 0.6rem 1.2rem; 
+      border-radius: 6px; 
+      font-size: 1rem; 
+      font-weight: 700; 
+      cursor: pointer; 
+      border: none; 
+      margin: 0.5rem; 
+    }
+    .checkout-btn:hover, .clear-cart-btn:hover { background: #DB2777; }
+
+    footer { background: linear-gradient(to right, #EC4899 10%, #FBBF24 50%, #A855F7 90%); color: #1F2937; padding: 1rem 0; text-align: center; font-size: 0.85rem; }
+    .social-icons a { color: #000; font-size: 1.5rem; margin: 0 0.75rem; }
+    .social-icons a:hover { color: #A855F7; }
+
+    @media (max-width: 768px) {
+      .cart-item {
+        flex-wrap: wrap;
+      }
+      .cart-item-details {
+        flex-basis: 100%;
+        margin-top: 0.5rem;
+      }
+      .hkula-text { display: none; }
+      .nav-right { gap: 0.5rem; }
+      nav ul { gap: 0.3rem; }
+      nav ul li a { padding: 0.2rem 0.4rem; font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">
+      <img src="Images/Hkula_Logo.png" alt="HKULA Logo">
+      <span class="hkula-text">HKULA</span>
+    </div>
+    <div class="nav-right">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <a href="cart.html" class="cart-btn" id="cart-btn">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="badge" id="cart-count">0</span>
+        <div class="cart-notification" id="cart-notification"></div>
+      </a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="cart-section container">
+      <h2>YOUR CART</h2>
+      <div id="cart-items-container" class="cart-items-container"></div>
+      <div id="cart-total" class="cart-total"></div>
+      <button id="clear-cart-btn" class="clear-cart-btn">Clear Cart</button>
+      <button id="checkout-btn" class="checkout-btn">Proceed to Checkout</button>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="social-icons">
+        <a href="https://www.facebook.com/hkulabysadaf" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/hkulabysadaf" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@hkulabysadaf" target="_blank"><i class="fab fa-tiktok"></i></a>
+        <a href="https://wa.me/923270505640" target="_blank"><i class="fab fa-whatsapp"></i></a>
+      </div>
+      <p>© 2025 HKULA. All rights reserved. Crafted exclusively for women.</p>
+    </div>
+  </footer>
+
+  <script>
+    function updateCartCount() {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart = cart.filter(item => item.sku && item.title && item.price && item.qty);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      const cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
+      document.getElementById('cart-count').innerText = cartCount;
+    }
+
+    function renderCart() {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart = cart.filter(item => item.sku && item.title && item.price && item.qty);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      const cartContainer = document.getElementById('cart-items-container');
+      const cartTotal = document.getElementById('cart-total');
+      const checkoutBtn = document.getElementById('checkout-btn');
+
+      if (cart.length === 0) {
+        cartContainer.innerHTML = '<p class="empty-cart">Your cart is empty.</p>';
+        cartTotal.innerHTML = '';
+        checkoutBtn.style.display = 'none';
+        return;
+      }
+
+      checkoutBtn.style.display = 'inline-block';
+      
+      cartContainer.innerHTML = cart.map(item => `
+        <div class="cart-item" data-sku="${item.sku}">
+          <img src="Products-Images/${item.sku}.jpg" alt="${item.title}" class="cart-item-image"
+               onerror="this.onerror=null; this.src='Products-Images/${item.sku}.JPG'; 
+                        if(this.complete && this.naturalWidth === 0) { 
+                          this.src='Products-Images/${item.sku}.jpeg'; 
+                          if(this.complete && this.naturalWidth === 0) { 
+                            this.src='Products-Images/${item.sku}.png'; 
+                            if(this.complete && this.naturalWidth === 0) { 
+                              this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2250%22%20height%3D%2250%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2050%2050%22%20preserveAspectRatio%3D%22none%22%3E%3Crect%20width%3D%2250%22%20height%3D%2250%22%20fill%3D%22%23f3e8ff%22%3E%3C%2Frect%3E%3Ctext%20x%3D%2215%22%20y%3D%2230%22%20font-family%3D%22Roboto%22%20font-size%3D%2214%22%20fill%3D%22%239C7EC5%22%3ENo%20Image%3C%2Ftext%3E%3C%2Fsvg%3E'; 
+                            } 
+                          } 
+                        }">
+          <div class="cart-item-details">
+            <div class="cart-item-sku">${item.sku}</div>
+            <div class="cart-item-qty">
+              <button onclick="updateQuantity('${item.sku}', ${item.qty - 1})" ${item.qty === 1 ? 'disabled' : ''}>-</button>
+              <input type="number" value="${item.qty}" min="1" onchange="updateQuantity('${item.sku}', this.value)">
+              <button onclick="updateQuantity('${item.sku}', ${item.qty + 1})">+</button>
+            </div>
+          </div>
+          <div class="cart-item-price">PKR ${(item.price * item.qty).toFixed(2)}</div>
+          <div class="cart-item-remove" onclick="removeItem('${item.sku}')"><i class="fas fa-times"></i></div>
+        </div>
+      `).join('');
+
+      const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      cartTotal.innerHTML = `Total: PKR ${total.toFixed(2)}`;
+    }
+
+    function updateQuantity(sku, value) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart = cart.filter(item => item.sku && item.title && item.price && item.qty);
+      const item = cart.find(item => item.sku === sku);
+      if (item) {
+        const newQty = parseInt(value);
+        if (newQty >= 1) {
+          item.qty = newQty;
+          localStorage.setItem('cart', JSON.stringify(cart));
+          updateCartCount();
+          renderCart();
+        }
+      }
+    }
+
+    function removeItem(sku) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart = cart.filter(item => item.sku && item.title && item.price && item.qty);
+      cart = cart.filter(item => item.sku !== sku);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      renderCart();
+      const cartNotification = document.getElementById('cart-notification');
+      cartNotification.innerText = 'Item removed from cart';
+      cartNotification.style.display = 'block';
+      setTimeout(() => cartNotification.style.display = 'none', 2000);
+    }
+
+    function clearCart() {
+      localStorage.removeItem('cart');
+      updateCartCount();
+      renderCart();
+      const cartNotification = document.getElementById('cart-notification');
+      cartNotification.innerText = 'Cart cleared';
+      cartNotification.style.display = 'block';
+      setTimeout(() => cartNotification.style.display = 'none', 2000);
+    }
+
+    document.getElementById('checkout-btn').addEventListener('click', () => {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart = cart.filter(item => item.sku && item.title && item.price && item.qty);
+      
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+      
+      const message = `Hello I would like to place order for\n\n${cart.map(item => `${item.sku} x ${item.qty}`).join('\n')}`;
+      const whatsappUrl = `https://wa.me/923270505640?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
+    });
+
+    document.getElementById('clear-cart-btn').addEventListener('click', clearCart);
+
+    updateCartCount();
+    renderCart();
+  </script>
+</body>
+</html>

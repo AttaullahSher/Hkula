@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product - HKULA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@700&family=Cormorant+Garamond:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Roboto', sans-serif; background: #FFF0F6; color: #1F2937; display: flex; flex-direction: column; min-height: 100vh; }
+    h1, h2, h3 { font-family: 'Playfair Display', serif; margin: 0.5rem 0; }
+    a { text-decoration: none; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+    main { flex: 1; }
+
+    nav { background: linear-gradient(to right, #EC4899 10%, #FBBF24 50%, #A855F7 90%); padding: 1rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+    .logo { display: flex; align-items: center; }
+    .logo img { height: 48px; }
+    .hkula-text { margin-left: 0.75rem; color: #A855F7; font-family: 'Cormorant Garamond', serif; font-weight: 700; text-transform: uppercase; font-size: 1.7rem; }
+    .nav-right { display: flex; align-items: center; gap: 1rem; }
+    nav ul { display: flex; gap: 0.5rem; list-style: none; margin: 0; font-size: 0.9rem; }
+    nav ul li a { color: #FFF; text-transform: uppercase; padding: 0.4rem 0.8rem; border: 1px solid #FFF; border-radius: 4px; font-weight: 700; opacity: 0.8; }
+    nav ul li a:hover { background: rgba(255,255,255,0.2); opacity: 1; }
+    .cart-btn { position: relative; }
+    .cart-btn i { font-size: 1.5rem; color: #FFF; }
+    .cart-btn .badge { position: absolute; top: -6px; right: -10px; background: #EC4899; color: #FFF; border-radius: 50%; padding: 2px 6px; font-size: 0.75rem; }
+    .cart-notification { display: none; position: absolute; top: 100%; right: 0; background: #FFF; color: #EC4899; padding: 0.5rem; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); font-size: 0.8rem; z-index: 101; }
+
+    .product-section { padding: 2rem 0; text-align: center; }
+    .product-section h2 { color: #EC4899; font-size: 1.4rem; text-transform: uppercase; display: inline-block; padding: 0.3rem 0.8rem; border: 1px solid #EC4899; border-radius: 4px; margin-bottom: 2rem; }
+    .error-message { color: #EC4899; font-size: 1rem; margin: 1rem 0; }
+    .file-input-container { margin: 1rem 0; display: none; }
+    .file-input-container.visible { display: block; }
+    .file-input-btn { background: #A855F7; color: #FFF; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.9rem; font-weight: 700; cursor: pointer; border: none; }
+    .file-input-btn:hover { background: #7C3AED; }
+    .product-details { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: center; }
+    .product-images { max-width: 500px; position: relative; }
+    .main-image-container { width: 100%; height: 400px; display: flex; align-items: center; justify-content: center; background: #FFF; border-radius: 12px; overflow: hidden; }
+    .main-image { width: 100%; height: 100%; object-fit: contain; transition: transform 0.3s ease; }
+    .main-image.zoomed { transform: scale(1.5); cursor: zoom-out; }
+    .no-image { font-size: 1rem; color: #6B7280; }
+    .thumbnail-gallery { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; justify-content: center; }
+    .thumbnail { width: 80px; height: 80px; object-fit: contain; border-radius: 6px; cursor: pointer; border: 2px solid transparent; background: #FFF; }
+    .thumbnail:hover, .thumbnail.active { border-color: #EC4899; }
+    .product-info { max-width: 500px; text-align: left; }
+    .product-info h3 { font-family: 'Roboto', sans-serif; font-size: 1.8rem; color: #A855F7; }
+    .product-info .price { font-family: 'Roboto', sans-serif; font-size: 1.2rem; color: #1F2937; margin: 1rem 0; }
+    .product-info .offer-price { font-size: 1.3rem; color: #EC4899; font-weight: 700; }
+    .product-info .original-price { font-size: 1rem; color: #EF4444; text-decoration: line-through; margin-left: 0.5rem; }
+    .product-info p { font-size: 1rem; line-height: 1.4; }
+    .button-group { display: flex; gap: 0.5rem; margin-top: 1rem; }
+    .add-to-cart-btn { background: #EC4899; color: #FFF; padding: 0.6rem 1.2rem; border-radius: 6px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+    .add-to-cart-btn:hover { background: #DB2777; }
+    .back-to-shop { background: #A855F7; color: #FFF; padding: 0.6rem 1.2rem; border-radius: 6px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+    .back-to-shop:hover { background: #7C3AED; }
+    .notification { font-size: 1rem; color: #EC4899; display: none; margin: 1rem 0; }
+
+    footer { background: linear-gradient(to right, #EC4899 10%, #FBBF24 50%, #A855F7 90%); color: #1F2937; padding: 1rem 0; text-align: center; font-size: 0.85rem; }
+    .social-icons a { color: #000; font-size: 1.5rem; margin: 0 0.75rem; }
+    .social-icons a:hover { color: #A855F7; }
+
+    @media (max-width: 768px) {
+      .product-details { flex-direction: column; }
+      .product-images { max-width: 100%; }
+      .main-image-container { height: 300px; }
+      .thumbnail { width: 60px; height: 60px; }
+      .product-info { text-align: center; }
+      .product-info h3 { font-size: 1.5rem; }
+      .product-section h2 { font-size: 1.2rem; padding: 0.2rem 0.6rem; }
+      .button-group { justify-content: center; }
+      .hkula-text { display: none; }
+      .nav-right { gap: 0.5rem; }
+      nav ul { gap: 0.3rem; }
+      nav ul li a { padding: 0.2rem 0.4rem; font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">
+      <img src="Images/Hkula_Logo.png" alt="HKULA Logo">
+      <span class="hkula-text">HKULA</span>
+    </div>
+    <div class="nav-right">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <a href="cart.html" class="cart-btn" id="cart-btn">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="badge" id="cart-count">0</span>
+        <div class="cart-notification" id="cart-notification"></div>
+      </a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="product-section container">
+      <h2>PRODUCT DETAILS</h2>
+      <div id="error-message" class="error-message"></div>
+      <div class="file-input-container" id="file-input-container">
+        <button class="file-input-btn" onclick="document.getElementById('csv-upload').click()">Select Products.csv</button>
+        <input type="file" id="csv-upload" accept=".csv" style="display: none;">
+      </div>
+      <div class="product-details" id="product-details"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="social-icons">
+        <a href="https://www.facebook.com/hkulabysadaf" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/hkulabysadaf" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@hkulabysadaf" target="_blank"><i class="fab fa-tiktok"></i></a>
+        <a href="https://wa.me/923270505640" target="_blank"><i class="fab fa-whatsapp"></i></a>
+      </div>
+      <p>© 2025 HKULA. All rights reserved. Crafted exclusively for women.</p>
+    </div>
+  </footer>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const sku = params.get('sku');
+    const isLocal = window.location.protocol === 'file:';
+    const csvPath = isLocal ? 'Products.csv' : '/Products.csv';
+    const imageExtensions = ['jpg', 'JPG', 'jpeg', 'png'];
+
+    function updateCartCount() {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart = cart.filter(item => item.sku && item.title && item.price && item.qty);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      const cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
+      document.getElementById('cart-count').innerText = cartCount;
+    }
+
+    function parseCSV(data) {
+      Papa.parse(data, {
+        header: true,
+        dynamicTyping: true,
+        skipEmptyLines: true,
+        transformHeader: header => {
+          if (header === 'Offer Price') return 'OfferPrice';
+          if (header === 'List/Unlist') return 'ListUnlist';
+          return header;
+        },
+        complete: (result) => {
+          console.log('Parsed Products:', result.data);
+          const products = result.data
+            .map(product => ({
+              SKU: product.SKU?.trim(),
+              Title: product.Title?.trim() || 'Unknown',
+              Description: product.Description?.trim() || '',
+              Price: parseFloat(product.Price) || 0,
+              OfferPrice: product.OfferPrice ? parseFloat(product.OfferPrice) : null,
+              ListUnlist: product.ListUnlist?.trim()
+            }))
+            .filter(product => 
+              product.SKU && 
+              product.Price > 0 && 
+              product.ListUnlist && 
+              product.ListUnlist.toLowerCase() === 'list'
+            );
+          console.log('Filtered Products:', products);
+
+          const product = products.find(p => p.SKU === sku);
+          if (!product) {
+            document.getElementById('product-details').innerHTML = '<p>Product not found.</p>';
+            return;
+          }
+
+          let thumbnails = '';
+          let mainImageSrc = '';
+          let mainImageFound = false;
+
+          // Check for main image
+          for (const ext of imageExtensions) {
+            const src = `Products-Images/${sku}.${ext}`;
+            const img = new Image();
+            img.src = src;
+            img.onload = () => {
+              if (img.naturalWidth > 0) {
+                mainImageSrc = src;
+                mainImageFound = true;
+                renderProductDetails();
+              }
+            };
+            img.onerror = () => {
+              if (ext === imageExtensions[imageExtensions.length - 1] && !mainImageFound) {
+                renderProductDetails();
+              }
+            };
+          }
+
+          // Check for thumbnails
+          const thumbnailPromises = [];
+          for (let i = 1; i <= 8; i++) {
+            for (const ext of imageExtensions) {
+              const src = `Products-Images/${sku} (${i}).${ext}`;
+              const promise = new Promise(resolve => {
+                const img = new Image();
+                img.src = src;
+                img.onload = () => {
+                  if (img.naturalWidth > 0) {
+                    resolve(`<img src="${src}" alt="${product.Title} ${i}" class="thumbnail" 
+                                  onclick="document.querySelector('.main-image').src=this.src; 
+                                           document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active')); 
+                                           this.classList.add('active')">`);
+                  } else {
+                    resolve('');
+                  }
+                };
+                img.onerror = () => resolve('');
+              });
+              thumbnailPromises.push(promise);
+              break;
+            }
+          }
+
+          function renderProductDetails() {
+            Promise.all(thumbnailPromises).then(thumbnailResults => {
+              thumbnails = thumbnailResults.filter(t => t).join('');
+
+              document.getElementById('product-details').innerHTML = `
+                <div class="product-images">
+                  <div class="main-image-container" onclick="toggleZoom(this)">
+                    ${mainImageFound ? 
+                      `<img src="${mainImageSrc}" alt="${product.Title}" class="main-image">` : 
+                      `<span class="no-image">No Image</span>`}
+                  </div>
+                  ${thumbnails ? `<div class="thumbnail-gallery">${thumbnails}</div>` : ''}
+                </div>
+                <div class="product-info">
+                  <h3>${product.Title}</h3>
+                  <div class="price">
+                    ${product.OfferPrice ? 
+                      `<span class="offer-price">PKR ${product.OfferPrice}</span> <span class="original-price">PKR ${product.Price}</span>` : 
+                      `<span class="offer-price">PKR ${product.Price}</span>`}
+                  </div>
+                  <p>${product.Description}</p>
+                  <div class="button-group">
+                    <button class="add-to-cart-btn" data-sku="${product.SKU}" data-title="${product.Title}" data-price="${product.OfferPrice || product.Price}">Add to Cart</button>
+                    <a href="shop.html" class="back-to-shop">Back to Shop</a>
+                  </div>
+                  <div class="notification" id="notif-${product.SKU}">Added to cart!</div>
+                </div>
+              `;
+
+              document.querySelector('.add-to-cart-btn').addEventListener('click', () => {
+                const sku = product.SKU;
+                const title = product.Title;
+                const price = product.OfferPrice || product.Price;
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                cart = cart.filter(item => item.sku && item.title && item.price && item.qty);
+                const existingItem = cart.find(item => item.sku === sku);
+                if (existingItem) {
+                  existingItem.qty += 1;
+                } else {
+                  cart.push({ sku, title, price, qty: 1 });
+                }
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartCount();
+                const notif = document.getElementById(`notif-${sku}`);
+                notif.innerText = 'Added to cart!';
+                notif.style.display = 'block';
+                setTimeout(() => notif.style.display = 'none', 2000);
+                const cartNotification = document.getElementById('cart-notification');
+                cartNotification.innerText = `Added ${title} to cart`;
+                cartNotification.style.display = 'block';
+                setTimeout(() => cartNotification.style.display = 'none', 2000);
+              });
+            });
+          }
+        },
+        error: (error) => {
+          console.error('Error parsing CSV:', error);
+          document.getElementById('error-message').innerText = 'Error parsing Products.csv. Check console for details.';
+        }
+      });
+    }
+
+    function toggleZoom(container) {
+      const img = container.querySelector('.main-image');
+      if (img) {
+        img.classList.toggle('zoomed');
+      }
+    }
+
+    function loadCSV() {
+      if (isLocal) {
+        const errorMessage = document.getElementById('error-message');
+        const fileInputContainer = document.getElementById('file-input-container');
+        errorMessage.innerText = 'Offline mode: Click below to select Products.csv.';
+        fileInputContainer.classList.add('visible');
+        document.getElementById('csv-upload').addEventListener('change', (e) => {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+              console.log('CSV Content (file input):', event.target.result);
+              parseCSV(event.target.result);
+            };
+            reader.readAsText(file);
+          }
+        });
+      } else {
+        fetch(csvPath)
+          .then(response => {
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            return response.text();
+          })
+          .then(data => {
+            console.log('CSV Content (online):', data);
+            parseCSV(data);
+          })
+          .catch(error => {
+            console.error('Error loading CSV (online):', error);
+            document.getElementById('error-message').innerText = 'Failed to load Products.csv. Ensure it exists in the repository root.';
+          });
+      }
+    }
+
+    loadCSV();
+    updateCartCount();
+  </script>
+</body>
+</html>

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About HKULA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@700&family=Cormorant+Garamond:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Roboto', sans-serif; background: #FFF0F6; color: #1F2937; display: flex; flex-direction: column; min-height: 100vh; }
+    h1, h2, h3 { font-family: 'Playfair Display', serif; margin: 0.5rem 0; }
+    a { text-decoration: none; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+    main { flex: 1; }
+
+    /* Animation Classes */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .animate-fade { animation: fadeIn 1s ease forwards; }
+    .delay-1 { animation-delay: 0.2s; }
+    .delay-2 { animation-delay: 0.4s; }
+    .delay-3 { animation-delay: 0.6s; }
+
+    nav { background: linear-gradient(to right, #EC4899 10%, #FBBF24 50%, #A855F7 90%); padding: 1rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+    .logo { display: flex; align-items: center; }
+    .logo img { height: 48px; }
+    .hkula-text { margin-left: 0.75rem; color: #A855F7; font-family: 'Cormorant Garamond', serif; font-weight: 700; text-transform: uppercase; font-size: 1.7rem; }
+    .nav-right { display: flex; align-items: center; gap: 1rem; }
+    nav ul { display: flex; gap: 0.5rem; list-style: none; margin: 0; font-size: 0.9rem; }
+    nav ul li a { color: #FFF; text-transform: uppercase; padding: 0.4rem 0.8rem; border: 1px solid #FFF; border-radius: 4px; font-weight: 700; opacity: 0.8; transition: all 0.3s ease; }
+    nav ul li a:hover { background: rgba(255,255,255,0.2); opacity: 1; transform: translateY(-2px); }
+    .cart-btn { position: relative; transition: transform 0.3s ease; }
+    .cart-btn:hover { transform: scale(1.1); }
+    .cart-btn i { font-size: 1.5rem; color: #FFF; }
+    .cart-btn .badge { position: absolute; top: -6px; right: -10px; background: #EC4899; color: #FFF; border-radius: 50%; padding: 2px 6px; font-size: 0.75rem; }
+
+    .about-section { 
+  padding: 2rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem; /* Smaller gap */
+  justify-content: center;
+}
+
+.about-image-grid {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.about-image {
+  flex: 0 0 48%; /* Take about half width */
+  border-radius: 8px; /* Smaller corners */
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08); /* Lighter shadow */
+  transition: all 0.4s ease;
+  max-width: 300px;
+  aspect-ratio: 4/3; /* Slightly rectangular */
+}
+
+.about-image:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+}
+
+.about-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.about-image:hover img {
+  transform: scale(1.07);
+}
+
+
+    /* Services Section */
+    .services-section {
+      background: white;
+      padding: 3rem;
+      border-radius: 20px;
+      margin: 2rem 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .service-card {
+      background: #FFF0F6;
+      border-radius: 16px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(168,85,247,0.2);
+    }
+    .service-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #A855F7;
+    }
+
+    /* Founders Section (text only) */
+    .founders-section {
+      background: linear-gradient(135deg, rgba(236,72,153,0.05), rgba(251,191,36,0.05), rgba(168,85,247,0.05));
+      padding: 3rem;
+      margin: 2rem 0;
+      border-radius: 20px;
+      text-align: center;
+    }
+    .founders-section p {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Contact Form Section - Smaller */
+    .contact-section {
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      margin: 3rem auto;
+      max-width: 700px;
+    }
+    .contact-form {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: #7C3AED;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.8rem;
+      border: 2px solid #E9D5FF;
+      border-radius: 8px;
+      font-family: 'Roboto', sans-serif;
+      transition: all 0.3s ease;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: #A855F7;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(168,85,247,0.2);
+    }
+    .form-group textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    .submit-btn {
+      background: linear-gradient(to right, #EC4899, #A855F7);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(168,85,247,0.3);
+    }
+    #form-success {
+      display: none;
+      background: #D1FAE5;
+      color: #065F46;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    /* Social Media & Email Section */
+    .connect-section {
+      text-align: center;
+      margin: 2rem 0;
+    }
+    .social-media {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    .social-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    .social-item:hover {
+      transform: translateY(-5px);
+    }
+    .social-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(to right, #EC4899, #A855F7);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+    .social-label {
+      font-weight: bold;
+      color: #7C3AED;
+    }
+
+    /* NGO Collaboration Section */
+    .ngo-section {
+      background: linear-gradient(135deg, #FFF0F6, #FEF3C7, #F5F3FF);
+      padding: 2rem;
+      border-radius: 20px;
+      margin: 2rem 0;
+      text-align: center;
+      border: 2px dashed #A855F7;
+    }
+
+    footer { 
+      background: linear-gradient(to right, #EC4899 10%, #FBBF24 50%, #A855F7 90%); 
+      color: #1F2937; 
+      padding: 2rem 0; 
+      text-align: center; 
+      font-size: 0.9rem;
+      margin-top: 3rem;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: white;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+    }
+    .footer-links a:hover {
+      background: rgba(255,255,255,0.2);
+      transform: translateY(-3px);
+    }
+    .social-icons { 
+      margin: 1.5rem 0;
+    }
+    .social-icons a { 
+      color: #000; 
+      font-size: 1.8rem; 
+      margin: 0 1rem;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+    .social-icons a:hover { 
+      color: #A855F7; 
+      transform: translateY(-5px) scale(1.1);
+    }
+
+    @media (max-width: 768px) {
+      .about-hero h1 { font-size: 2rem; }
+      .hkula-text { display: none; }
+      nav ul { gap: 0.3rem; }
+      nav ul li a { padding: 0.3rem 0.6rem; font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">
+      <img src="Images/Hkula_Logo.png" alt="HKULA Logo">
+      <span class="hkula-text">HKULA BY SADAF</span>
+    </div>
+    <div class="nav-right">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <a href="cart.html" class="cart-btn" id="cart-btn">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="badge" id="cart-count">0</span>
+      </a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="about-hero animate-fade">
+      <div class="container">
+        <h1 class="delay-1">Our Beauty Journey</h1>
+        <p class="delay-2">Premium Products & Salon Services for Every Woman</p>
+      </div>
+    </section>
+
+    <div class="container">
+      <section class="about-section animate-fade delay-1">
+        <div class="about-text">
+          <h2>Who We Are</h2>
+          <p>At HKULA, we believe that beauty should be accessible and enjoyable for all women. We specialize in both premium cosmetic products and professional salon services, creating a complete beauty experience.</p>
+          <p>Our products are carefully formulated to be easy to apply and long-lasting, while our upcoming salon services will offer professional makeup, skincare, and hair treatments by certified artists.</p>
+        </div>
+        <div class="about-image-grid">
+          <div class="about-image">
+            <img src="Images/products-showcase.jpg" alt="HKULA Products Showcase">
+          </div>
+          <div class="about-image">
+            <img src="Images/salon-service.jpg" alt="HKULA Salon Service">
+          </div>
+        </div>
+      </section>
+
+      <!-- Services Section -->
+      <section class="services-section animate-fade delay-2">
+        <h2 style="text-align: center; color: #7C3AED;">Our Offerings</h2>
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-paint-brush"></i></div>
+            <h3>Makeup Products</h3>
+            <p>High-quality cosmetics designed for Pakistani skin tones, including long-wear foundations, vibrant eyeshadows, and moisturizing lip products.</p>
+          </div>
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-spa"></i></div>
+            <h3>Skincare Range</h3>
+            <p>Gentle yet effective skincare solutions formulated with natural ingredients to nourish and protect your skin.</p>
+          </div>
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-cut"></i></div>
+            <h3>Salon Services</h3>
+            <p>Professional makeup application, haircuts, coloring, and styling services by our certified beauty experts.</p>
+          </div>
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-hands"></i></div>
+            <h3>Bridal Packages</h3>
+            <p>Complete bridal beauty solutions including trials, day-of services, and custom looks tailored to your wedding theme.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="founders-section animate-fade delay-2">
+        <h2>Our Story</h2>
+        <p>HKULA was founded with a vision to bring quality beauty solutions to women across Pakistan. From our humble beginnings to becoming a registered trademark, we remain committed to serving women from all walks of life.</p>
+        <p>We're proud to have completed our legal registration (Trade Mark #701369) and are currently expanding our product line and preparing to launch our salon services.</p>
+      </section>
+
+      <!-- NGO Collaboration Section -->
+      <section class="ngo-section animate-fade delay-2">
+        <h2>Community Partnerships</h2>
+        <p>We welcome collaborations with organizations supporting women's empowerment. Contact us to discuss potential projects benefiting rural communities.</p>
+      </section>
+
+      <!-- Social Media & Email Section -->
+      <section class="connect-section animate-fade delay-3">
+        <h2>Connect With Us</h2>
+        <div class="social-media">
+          <div class="social-item">
+            <div class="social-icon"><i class="fas fa-envelope"></i></div>
+            <span class="social-label">Email</span>
+            <small>admin@hkula.com</small>
+          </div>
+          <div class="social-item">
+            <div class="social-icon"><i class="fab fa-whatsapp"></i></div>
+            <span class="social-label">WhatsApp</span>
+            <small>+92 327 0505640</small>
+          </div>
+          <div class="social-item">
+            <div class="social-icon"><i class="fab fa-instagram"></i></div>
+            <span class="social-label">Instagram</span>
+            <small>@hkulabysadaf</small>
+          </div>
+          <div class="social-item">
+            <div class="social-icon"><i class="fab fa-facebook-f"></i></div>
+            <span class="social-label">Facebook</span>
+            <small>/hkulabysadaf</small>
+          </div>
+        </div>
+      </section>
+
+      
+      </section>
+
+      <section class="legal-section animate-fade delay-3">
+        <div class="legal-badge">Legal & Trademarks</div>
+        <h2>Intellectual Property Protection</h2>
+        <p><strong>Registration Numbers:</strong></p>
+        <ul>
+          <li>Products and logo: Index/08/92629-701369</li>
+          <li>Services: index/08/92630-701370</li>
+          <li>Trade Mark # 701369 under class 3</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <footer class="animate-fade delay-3">
+    
+      <p>© 2025 HKULA. All rights reserved. Beauty products and salon services.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Update cart count
+    function updateCartCount() {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart = cart.filter(item => item.sku && item.title && item.price && item.qty);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      const cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
+      document.getElementById('cart-count').innerText = cartCount;
+    }
+    updateCartCount();
+
+    // Form submission handler
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Get form values
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
+      
+      // Here you would typically send this data to your server
+      // For demo purposes, we'll show the success message
+      document.getElementById('form-success').style.display = 'block';
+      
+      // Clear form
+      this.reset();
+      
+      // Hide success message after 5 seconds
+      setTimeout(() => {
+        document.getElementById('form-success').style.display = 'none';
+      }, 5000);
+      
+      // In a real implementation, you would send the data to admin@hkula.com
+      // This would require server-side code (PHP, Node.js, etc.)
+      // Example using FormSubmit.co (free form endpoint):
+      // fetch('https://formsubmit.co/ajax/admin@hkula.com', {
+      //   method: 'POST',
+      //   headers: { 
+      //     'Content-Type': 'application/json',
+      //     'Accept': 'application/json'
+      //   },
+      //   body: JSON.stringify(data)
+      // })
+      // .then(response => response.json())
+      // .then(data => console.log(data))
+      // .catch(error => console.log(error));
+    });
+
+    // Animation observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-fade');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.animate-fade').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
