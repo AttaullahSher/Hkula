@@ -45,47 +45,47 @@
     .cart-btn .badge { position: absolute; top: -6px; right: -10px; background: #EC4899; color: #FFF; border-radius: 50%; padding: 2px 6px; font-size: 0.75rem; }
 
     .about-section { 
-  padding: 2rem 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 1rem; /* Smaller gap */
-  justify-content: center;
-}
+      padding: 2rem 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem; /* Smaller gap */
+      justify-content: center;
+    }
 
-.about-image-grid {
-  display: flex;
-  gap: 1rem;
-  flex: 1;
-  justify-content: center;
-  flex-wrap: wrap;
-}
+    .about-image-grid {
+      display: flex;
+      gap: 1rem;
+      flex: 1;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
 
-.about-image {
-  flex: 0 0 48%; /* Take about half width */
-  border-radius: 8px; /* Smaller corners */
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.08); /* Lighter shadow */
-  transition: all 0.4s ease;
-  max-width: 300px;
-  aspect-ratio: 4/3; /* Slightly rectangular */
-}
+    .about-image {
+      flex: 0 0 48%; /* Take about half width */
+      border-radius: 8px; /* Smaller corners */
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08); /* Lighter shadow */
+      transition: all 0.4s ease;
+      max-width: 300px;
+      aspect-ratio: 4/3; /* Slightly rectangular */
+    }
 
-.about-image:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.12);
-}
+    .about-image:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+    }
 
-.about-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-}
+    .about-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
 
-.about-image:hover img {
-  transform: scale(1.07);
-}
+    .about-image:hover img {
+      transform: scale(1.07);
+    }
 
 
     /* Services Section */
@@ -98,7 +98,7 @@
     }
     .services-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(2, minmax(250px, 1fr));
       gap: 2rem;
       margin-top: 2rem;
     }
@@ -235,6 +235,7 @@
       justify-content: center;
       font-size: 1.8rem;
       margin-bottom: 0.5rem;
+      cursor: pointer;
     }
     .social-label {
       font-weight: bold;
@@ -291,12 +292,56 @@
       color: #A855F7; 
       transform: translateY(-5px) scale(1.1);
     }
+    .terms-privacy {
+      font-size: 0.7rem;
+      color: #FFF;
+      margin-top: 1rem;
+    }
+    .terms-privacy a {
+      color: #FFF;
+      text-decoration: underline;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+    .modal-content {
+      background: #FFF;
+      margin: 5% auto;
+      padding: 20px;
+      border-radius: 8px;
+      width: 80%;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+    }
 
     @media (max-width: 768px) {
       .about-hero h1 { font-size: 2rem; }
       .hkula-text { display: none; }
       nav ul { gap: 0.3rem; }
       nav ul li a { padding: 0.3rem 0.6rem; font-size: 0.8rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .about-image { flex: 0 0 100%; max-width: 100%; }
+    }
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(2, minmax(250px, 1fr)); }
     }
   </style>
 </head>
@@ -387,30 +432,51 @@
       <section class="connect-section animate-fade delay-3">
         <h2>Connect With Us</h2>
         <div class="social-media">
-          <div class="social-item">
+          <a href="mailto:admin@hkula.com" class="social-item">
             <div class="social-icon"><i class="fas fa-envelope"></i></div>
             <span class="social-label">Email</span>
             <small>admin@hkula.com</small>
-          </div>
-          <div class="social-item">
+          </a>
+          <a href="https://wa.me/923270505640" class="social-item">
             <div class="social-icon"><i class="fab fa-whatsapp"></i></div>
             <span class="social-label">WhatsApp</span>
             <small>+92 327 0505640</small>
-          </div>
-          <div class="social-item">
+          </a>
+          <a href="https://www.instagram.com/hkulabysadaf" class="social-item">
             <div class="social-icon"><i class="fab fa-instagram"></i></div>
             <span class="social-label">Instagram</span>
             <small>@hkulabysadaf</small>
-          </div>
-          <div class="social-item">
+          </a>
+          <a href="https://www.facebook.com/hkulabysadaf" class="social-item">
             <div class="social-icon"><i class="fab fa-facebook-f"></i></div>
             <span class="social-label">Facebook</span>
             <small>/hkulabysadaf</small>
-          </div>
+          </a>
         </div>
       </section>
 
-      
+      <section class="contact-section animate-fade delay-3">
+        <h2>Contact Us</h2>
+        <form id="contactForm" class="contact-form">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" required></textarea>
+          </div>
+          <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+        <div id="form-success">Thank you! Your message has been sent.</div>
       </section>
 
       <section class="legal-section animate-fade delay-3">
@@ -427,10 +493,48 @@
   </main>
 
   <footer class="animate-fade delay-3">
-    
+    <div class="container">
+      <div class="social-icons">
+        <a href="https://www.facebook.com/hkulabysadaf" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/hkulabysadaf" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@hkulabysadaf" target="_blank"><i class="fab fa-tiktok"></i></a>
+        <a href="https://wa.me/923270505640" target="_blank"><i class="fab fa-whatsapp"></i></a>
+      </div>
       <p>© 2025 HKULA. All rights reserved. Beauty products and salon services.</p>
+      <div class="terms-privacy">
+        <a href="#" onclick="document.getElementById('termsModal').style.display='block'; return false;">Terms</a> | 
+        <a href="#" onclick="document.getElementById('privacyModal').style.display='block'; return false;">Privacy</a>
+      </div>
     </div>
   </footer>
+
+  <!-- Terms Modal -->
+  <div id="termsModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="document.getElementById('termsModal').style.display='none'">&times;</span>
+      <h2>Terms and Conditions</h2>
+      <p>These Terms and Conditions govern your use of the HKULA website and services. By accessing or using our site, you agree to be bound by these terms.</p>
+      <p><strong>1. Acceptance of Terms</strong><br>By using our services, you agree to comply with and be legally bound by these Terms and Conditions.</p>
+      <p><strong>2. Use of Services</strong><br>You may use our services only for lawful purposes and in accordance with these terms. You agree not to use the services for any illegal or unauthorized purpose.</p>
+      <p><strong>3. Intellectual Property</strong><br>All content on this site, including text, graphics, logos, and images, is the property of HKULA and protected by copyright laws.</p>
+      <p><strong>4. Limitation of Liability</strong><br>HKULA is not liable for any indirect, incidental, or consequential damages arising from your use of our services.</p>
+      <p><strong>5. Changes to Terms</strong><br>We reserve the right to modify these terms at any time. Continued use of the site after changes constitutes acceptance of the new terms.</p>
+    </div>
+  </div>
+
+  <!-- Privacy Modal -->
+  <div id="privacyModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="document.getElementById('privacyModal').style.display='none'">&times;</span>
+      <h2>Privacy Policy</h2>
+      <p>At HKULA, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information.</p>
+      <p><strong>1. Information We Collect</strong><br>We collect personal information such as your name, email, and phone number when you provide it through our contact form or other interactions.</p>
+      <p><strong>2. How We Use Your Information</strong><br>We use your information to respond to your inquiries, improve our services, and communicate with you about our offerings.</p>
+      <p><strong>3. Data Security</strong><br>We implement appropriate technical and organizational measures to protect your personal data from unauthorized access or disclosure.</p>
+      <p><strong>4. Sharing Your Information</strong><br>We do not sell or rent your personal information to third parties. We may share it with service providers to assist us in operating our business.</p>
+      <p><strong>5. Your Rights</strong><br>You have the right to access, correct, or delete your personal data. Contact us at admin@hkula.com to exercise these rights.</p>
+    </div>
+  </div>
 
   <script>
     // Update cart count
@@ -451,32 +555,24 @@
       const formData = new FormData(this);
       const data = Object.fromEntries(formData);
       
-      // Here you would typically send this data to your server
-      // For demo purposes, we'll show the success message
-      document.getElementById('form-success').style.display = 'block';
-      
-      // Clear form
-      this.reset();
-      
-      // Hide success message after 5 seconds
-      setTimeout(() => {
-        document.getElementById('form-success').style.display = 'none';
-      }, 5000);
-      
-      // In a real implementation, you would send the data to admin@hkula.com
-      // This would require server-side code (PHP, Node.js, etc.)
-      // Example using FormSubmit.co (free form endpoint):
-      // fetch('https://formsubmit.co/ajax/admin@hkula.com', {
-      //   method: 'POST',
-      //   headers: { 
-      //     'Content-Type': 'application/json',
-      //     'Accept': 'application/json'
-      //   },
-      //   body: JSON.stringify(data)
-      // })
-      // .then(response => response.json())
-      // .then(data => console.log(data))
-      // .catch(error => console.log(error));
+      // Send data to FormSubmit.co
+      fetch('https://formsubmit.co/ajax/admin@hkula.com', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('form-success').style.display = 'block';
+        this.reset();
+        setTimeout(() => {
+          document.getElementById('form-success').style.display = 'none';
+        }, 5000);
+      })
+      .catch(error => console.log(error));
     });
 
     // Animation observer
@@ -490,6 +586,13 @@
 
     document.querySelectorAll('.animate-fade').forEach(el => {
       observer.observe(el);
+    });
+
+    // Modal functionality
+    document.querySelectorAll('.modal').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.style.display = 'none';
+      });
     });
   </script>
 </body>
