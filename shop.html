@@ -41,7 +41,7 @@
     .product-card .no-image { font-size: 0.9rem; color: #6B7280; }
     .product-card .title-sku { padding: 0 0.5rem; margin: 0.5rem 0; text-align: center; }
     .product-card .sku { font-family: 'Roboto', sans-serif; font-size: 1rem; color: #A855F7; }
-    .product-card .title { font-family: 'Roboto', sans-serif; font-size: 0.9rem; color: #1F2937; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
+    .product-card .title { font-family: 'Roboto', sans-serif; font-size: 0.9rem; color: #1F2937; display: -webkit-box; -webkit-line-clamp: 1; line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
     .product-card .price { font-family: 'Roboto', sans-serif; font-size: 1rem; color: #1F2937; margin: 0.5rem 0; }
     .product-card .offer-price { font-size: 1.1rem; color: #EC4899; font-weight: 700; }
     .product-card .original-price { font-size: 0.9rem; color: #EF4444; text-decoration: line-through; margin-left: 0.5rem; }
@@ -144,7 +144,7 @@
     let currentPage = 1;
     const productsPerPage = 24;
     const isLocal = window.location.protocol === 'file:';
-    const csvPath = isLocal ? 'Products.csv' : '/Hkula/Products.csv';
+    const csvPath = 'Products.csv';
 
     function parseCSV(data) {
       Papa.parse(data, {

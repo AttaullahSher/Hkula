@@ -126,7 +126,7 @@
     const params = new URLSearchParams(window.location.search);
     const sku = params.get('sku');
     const isLocal = window.location.protocol === 'file:';
-    const csvPath = isLocal ? 'Products.csv' : '/Hkula/Products.csv';
+    const csvPath = 'Products.csv';
     const imageExtensions = ['jpg', 'JPG', 'jpeg', 'png'];
 
     function updateCartCount() {
