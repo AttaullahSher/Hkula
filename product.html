@@ -126,7 +126,7 @@
     const params = new URLSearchParams(window.location.search);
     const sku = params.get('sku');
     const isLocal = window.location.protocol === 'file:';
-    const csvPath = 'Products.csv';
+    const csvPath = isLocal ? 'Products.csv' : 'https://raw.githubusercontent.com/AttaullahSher/Hkula/master/Products.csv';
     const imageExtensions = ['jpg', 'JPG', 'jpeg', 'png'];
 
     function updateCartCount() {
